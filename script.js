@@ -12,7 +12,7 @@ function changeImage() {
 setInterval(changeImage, 2500);
 
 // 2. Focus Mode & WhatsApp Logic
-const myNumber = "254712345678"; // <--- PUT NASE'S REAL NUMBER HERE
+const myNumber = "254715692495"; // <--- PUT NASE'S REAL NUMBER HERE
 
 function showImage(imgElement) {
     const focusOverlay = document.getElementById('imageFocus');
