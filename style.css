@@ -1,131 +1,219 @@
-/* Core Styling */
-body {
-    font-family: Arial, sans-serif;
+/* --- 1. FULL SCREEN RESET --- */
+* {
     margin: 0;
-    background-color: #000; /* Black Background */
-    color: white;
-    text-align: center;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Navigation Bar */
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: #000; /* Pure Black Background */
+    color: white;
+    text-align: center;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* --- 2. NAVIGATION BAR --- */
 .navbar {
-    background: #111;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(15px);
     padding: 20px;
     display: flex;
     justify-content: center;
     gap: 30px;
-    border-bottom: 1px solid #b22222;
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar a {
-    color: white;
+    color: #888;
     text-decoration: none;
     font-weight: bold;
-}
-
-.navbar a.active { color: #b22222; }
-
-/* Animated Graphical Title */
-.graphical-title {
-    font-size: 40px;
-    /* 1. Make the gradiet wider than the text so it has room to move */
-    background: linear-gradient(to right,#b22222#fff,#b22222);
-    background-size: 200% auto;
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: pink;
-    letter-spacing: 2px;
-    transition: 0.5s;
-
-    /* 2. Link the animation name below */
-    animation:shine 3s linear infinite;
-}
-/* 3.Create the movement effect */
-@keyframes shine{
-    to{
-        background-position: 200% center;
-    }
-}
-
-.graphical-title:hover {
-    letter-spacing: 5px;
-    transform: scale(1.05);
-}
-
-/* Shoe Cards & Moving Hover */
-.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;/*Reduced gap slightly for mobile/small screens */
-    padding: 20px 0;/*Vertical  padding only ,let width be 100% */
-    width: 100%;/*Forces the gallery to take the full width  */
-
-}
-
-.gallery>div{
-    flex:1 1 300px;/*Grow to fill space, but not smaller than 300px */
-    max-width: 100%;/*Ensure they don't go off-screen on mobile */
-}
- 
-.gallery img {
-    width:100%;/*Makes the image fill the whole card */
-    height: auto;/*Keeps the shoe from looking stretched */
-    display: block;
-}
-
-.shoe {
-    background: #111;
-    padding: 20px;
-    border-radius: 15px;
     transition: 0.3s;
-    cursor: pointer;
 }
 
-/* The moving hover effect you liked */
-.shoe:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 10px 30px rgba(178, 34, 34, 0.5);
+.navbar a.active, .navbar a:hover {
+    color: #b22222;
 }
 
-.shoe img {
-    width: 200px;
-    border-radius: 10px;
+/* --- 3. GRAPHICAL ANIMATED TITLE --- */
+.graphical-title {
+    font-size: clamp(32px, 8vw, 60px);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 40px 0;
+    letter-spacing: 5px;
+    background: linear-gradient(to right, #b22222, #ffffff, #2ecc71, #b22222);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+    position: relative;
+    z-index: 10;
 }
 
-/* Full-Page Focus Mode */
-.focus-overlay {
-    display: none;
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+/* --- 4. THE INTERACTIVE CIRCLE SWARM --- */
+.circle-swarm {
     position: fixed;
-    z-index: 9999;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.stat-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(178, 34, 34, 0.2);
+    display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    backdrop-filter: blur(2px);
+    transition: all 0.6s ease;
+    animation: floatSwarm 15s linear infinite;
 }
 
-#focusedImg {
-    max-width: 90%;
-    max-height: 70vh;
-    border: 2px solid #b22222;
-    border-radius: 10px;
+.stat-circle.pulse-glow {
+    border-color: rgba(178, 34, 34, 0.8);
+    box-shadow: 0 0 30px rgba(178, 34, 34, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
 }
 
-/* Buttons */
+@keyframes floatSwarm {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -50px) rotate(5deg); }
+    66% { transform: translate(-20px, 20px) rotate(-5deg); }
+}
+
+/* Circle Positions */
+.c1 { width: 120px; height: 120px; top: 10%; left: 5%; }
+.c2 { width: 80px; height: 80px; top: 40%; left: 2%; }
+.c3 { width: 150px; height: 150px; top: 70%; left: 8%; }
+.c4 { width: 100px; height: 100px; top: 15%; right: 5%; }
+.c5 { width: 130px; height: 130px; top: 50%; right: 3%; }
+.c6 { width: 90px; height: 90px; top: 85%; right: 7%; }
+.c7 { width: 110px; height: 110px; top: 30%; left: 20%; }
+.c8 { width: 140px; height: 140px; top: 60%; right: 25%; }
+.c9 { width: 70px; height: 70px; top: 5%; left: 45%; }
+.c10 { width: 160px; height: 160px; bottom: 5%; left: 40%; }
+
+/* --- 5. SHOE GALLERY --- */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1400px;
+    padding: 40px;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.shoe {
+    background: #111;
+    padding: 25px;
+    border-radius: 25px;
+    border: 1px solid #222;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.shoe:hover {
+    transform: translateY(-20px);
+    box-shadow: 0 20px 50px rgba(178, 34, 34, 0.5);
+    border-color: #b22222;
+}
+
+.shoe img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
+
+/* --- 6. FIXED & SLEEK WHATSAPP BUTTON --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;  /* Small circle */
+    height: 60px;
+    background: linear-gradient(to right, #25d366, #128c7e);
+    border-radius: 50%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transition: 0.4s ease;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.whatsapp-float span {
+    display: none; /* Hidden by default */
+    color: white;
+    font-weight: 900;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.whatsapp-float img { width: 30px; height: 30px; }
+
+/* Expand only when the user wants to click it */
+.whatsapp-float:hover {
+    width: 190px;
+    border-radius: 35px;
+}
+
+.whatsapp-float:hover span {
+    display: block;
+}
+
+/* --- 7. SLIM ACTION BUTTONS --- */
 .cta-button, .whatsapp-btn {
     display: inline-block;
-    padding: 15px 30px;
-    background: #b22222;
+    padding: 12px 28px; /* Slimmer for an expensive look */
+    font-size: 0.85rem;
+    background: linear-gradient(to right, #b22222, #ffffff, #2ecc71, #b22222);
+    background-size: 200% auto;
     color: white;
     text-decoration: none;
+    font-weight: 900;
     border-radius: 50px;
-    font-weight: bold;
+    animation: shine 3s linear infinite;
+    cursor: pointer;
+    border: none;
 }
 
-.whatsapp-btn { background: #25D366; }
+/* --- 8. FOCUS MODE --- */
+.focus-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.98);
+    z-index: 4000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(15px);
+}
 
-.close-btn { position: absolute; top: 20px; right: 40px; font-size: 50px; cursor: pointer;}
-
+#focusedImg { 
+    max-width: 90%; 
+    max-height: 55vh; /* Prevents overflow */
+    border-radius: 20px; 
+    box-shadow: 0 0 40px #b22222; 
+}
